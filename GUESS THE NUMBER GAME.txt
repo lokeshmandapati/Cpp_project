@@ -1,0 +1,102 @@
+//GUESS THE NUMBER GAME
+
+#include <iostream> 
+#include <cstdlib> 
+#include<bits/stdc++.h>
+#include <cmath> 
+using namespace std;
+
+map<string,int> mi;
+
+void playGame(){ 
+    string name; 
+    cout<<"Enter your Name\n"; 
+    cin>>name; 
+    int ranNum = rand() % 100; 
+    cout << "┌───────────────────────────────────────────┐" << endl; 
+    cout << "│ │" << endl; 
+    cout << "│ Let's Play Guess a Number... │" << endl; cout << "│ │" << endl; 
+    cout << "└───────────────────────────────────────────┘" << endl; 
+    bool win = false; 
+    const int trials = 6; 
+    int guess; 
+    int pTries = 0; 
+    while (!win && pTries != trials) { 
+        cout << "Guess a Number, Let's see your Luck: "; 
+        cin >> guess; pTries++; 
+        if (guess == ranNum) { 
+            cout << "Congratulations! You Guessed the Number in " << pTries << " Tries." << endl; 
+            win = true; // ENTERING INTO THE LEADER Board; 
+            if(mi.find(name)==mi.end()){ 
+                mi[name] = 1; 
+            }
+            else{ 
+                mi[name]++; 
+            } 
+        } 
+        else if (guess < ranNum) { 
+            int diff = ranNum - guess; 
+            if (diff <= 10) { 
+                cout << "Too low but very close!" << endl; 
+            } 
+            else if (diff <= 20) { 
+                cout << "Low, but close. Guess again." << endl; 
+            } 
+            else { 
+                cout << "Too low and too far. Guess again." << endl; 
+            } 
+        } 
+        else { 
+            int diff = guess - ranNum; 
+            if (diff <= 10) { 
+                cout << "Too high but very close!" << endl; 
+            } 
+            else if (diff <= 20) { 
+                cout << "High, but close. Guess again." << endl; 
+            } 
+            else { 
+                cout << "Too high and too far. Guess again." << endl; 
+            } 
+        } 
+    } 
+    if (!win) { 
+        cout << "You failed the game. The correct number was " << ranNum << "." << endl; 
+    } 
+    return ; 
+} 
+void displayLeaderBoard(){ 
+    cout<<"\n Here is the LeaderBoard:\n"; 
+    cout<<"_____________________\n"; 
+    cout<<"Name\tScore\n"; 
+    cout<<"______________________\n"; 
+    for(auto i:mi){ 
+        cout<<i.first<<"\t"<<i.second<<endl; 
+    } 
+    cout<<"_______________\n"; 
+} 
+void displayMenu(){ 
+    int choice; 
+    do{ 
+        cout<<"\nOptions:\n" <<"1. Play\n" <<"2. View LeaderBoard\n" <<"3. Exit\n" <<"Enter you choice:"; 
+        cin>>choice; 
+        switch(choice){ 
+            case 1: 
+            playGame(); 
+            break; 
+            case 2: 
+            displayLeaderBoard(); 
+            break; 
+            case 3: 
+            cout<<"Thanks for Playing.Goodbye\n"; 
+            break; 
+            default: 
+            cout<<"Please have a valid Choice\n"; 
+            break; 
+        } 
+    }
+    while(choice!=3); 
+} 
+int main() { 
+    displayMenu(); 
+    return 0; 
+}
